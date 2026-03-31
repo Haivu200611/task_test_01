@@ -236,24 +236,75 @@ body {
 .card {
   background: white;
   padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  border-radius: 10px;
+  max-width: 100%;
+  margin: auto;
 }
 
-.table {
+table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  table-layout: fixed;
 }
 
-.table th,
-.table td {
+th, td {
   padding: 10px;
-  text-align: left;
   border-bottom: 1px solid #ddd;
-  color: #000000;
+  word-wrap: break-word;
+}
+
+th {
+  text-align: left;
 }
 
 .table tr:hover {
   background: #ffffff;
+}
+
+/* CONTAINER SCROLL */
+.table-container {
+  max-height: 350px;
+  overflow-y: auto;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+/* TABLE */
+.pro-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 14px;
+}
+
+/* HEADER */
+.pro-table thead th {
+  position: sticky;
+  top: 0;
+  background: #f8fafc;
+  padding: 12px;
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+  z-index: 1;
+}
+
+/* BODY */
+.pro-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ZEBRA ROW */
+.pro-table tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+/* HOVER */
+.pro-table tbody tr:hover {
+  background: #e0f2fe;
+  cursor: pointer;
 }

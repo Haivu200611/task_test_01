@@ -1,32 +1,43 @@
+import { useEffect, useState } from "react";
+
 function Users() {
-  const users = [
-    { id: 1, name: "Alice", age: 30 },
-    { id: 2, name: "Bob", age: 25 },
-    { id: 3, name: "Charlie", age: 35 },
-  ];
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch("https://dummyjson.com/users")
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data.users);
+      });
+  }, []);
 
   return (
     <div className="card">
-      <h1>Danh sách người dùng</h1>
+    <h2>User List</h2>
 
-      <table className="table">
+    <div className="table-container">
+        <table className="pro-table">
         <thead>
-          <tr>
+            <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>Email</th>
             <th>Age</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((u) => (
-            <tr key={u.id}>
-              <td>{u.id}</td>
-              <td>{u.name}</td>
-              <td>{u.age}</td>
             </tr>
-          ))}
+        </thead>
+
+        <tbody>
+            {users.map((u) => (
+                <tr key={u.id}>
+                <td>{u.id}</td>
+                <td>{u.firstName} {u.lastName}</td>
+                <td>{u.email}</td>
+                <td>{u.age}</td>
+                </tr>
+            ))}
         </tbody>
-      </table>
+        </table>
+    </div>
     </div>
   );
 }
