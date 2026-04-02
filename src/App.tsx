@@ -1,19 +1,47 @@
+import { useState } from "react"
+import Sidebar from "./components/Sidebar"
+import DataTable from "./components/DataTable"
+import QuickCreateModal from "./components/QuickCreateModal"
+import { useFetchData } from "./hooks/useFetchData"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
-export function App() {
+function App() {
+  const [collapsed, setCollapsed] = useState(false)
+  const [open, setOpen] = useState(false)
+  const [search, setSearch] = useState("")
+
+  const { data, loading, error } = useFetchData(
+    "https://jsonplaceholder.typicode.com/users"
+  )
+
+  const filteredData = data.filter((item: any) =>
+    item.name.toLowerCase().includes(search.toLowerCase())
+  )
+
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
+    <div className="flex">
+      <Sidebar collapsed={collapsed} toggle={() => setCollapsed(!collapsed)} />
+
+      <div className="flex-1 p-4">
+        <div className="flex justify-between mb-4">
+          <h1>Dashboard</h1>
+          <Button onClick={() => setOpen(true)}>Quick Create</Button>
         </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
+
+        {/* SEARCH */}
+        <Input
+          placeholder="Search name..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="mb-4"
+        />
+
+        {/* TABLE */}
+        <DataTable data={filteredData} loading={loading} error={error} />
       </div>
+
+      <QuickCreateModal open={open} setOpen={setOpen} />
     </div>
   )
 }
