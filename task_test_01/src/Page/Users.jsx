@@ -1,45 +1,41 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useFetchData } from "../hook/useFetchData";
+import { DataTable } from "../components/DataTable";
+import { QuickCreateModal } from "../components/QuickCreateModal";
+import { Button } from "../components/ui/button";
 
-function Users() {
-  const [users, setUsers] = useState([]);
+export default function Users() {
+  const { data: users, loading, error } = useFetchData("https://dummyjson.com/users");
 
-  useEffect(() => {
-    fetch("https://dummyjson.com/users")
-      .then((res) => res.json())
-      .then((data) => {
-        setUsers(data.users);
-      });
-  }, []);
+  const [open, setOpen] = useState(false);
 
   return (
-    <div className="card">
-    <h2>User List</h2>
+    <main className="content">
+      <div className="page-stack">
+        <section className="page-card">
+          <div className="page-header">
+            <div className="page-copy">
+              <div className="page-kicker">Management dashboard</div>
+              <h1 className="page-title">Users</h1>
+              <p className="page-subtitle">
+                Browse the current user set, inspect key fields, and open the
+                creation modal from a cleaner layout.
+              </p>
+            </div>
 
-    <div className="table-container">
-        <table className="pro-table">
-        <thead>
-            <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Age</th>
-            </tr>
-        </thead>
+            <div className="page-actions">
+              <Button onClick={() => setOpen(true)}>Quick Create</Button>
+            </div>
+          </div>
 
-        <tbody>
-            {users.map((u) => (
-                <tr key={u.id}>
-                <td>{u.id}</td>
-                <td>{u.firstName} {u.lastName}</td>
-                <td>{u.email}</td>
-                <td>{u.age}</td>
-                </tr>
-            ))}
-        </tbody>
-        </table>
-    </div>
-    </div>
+          {loading && <div className="status">Loading users…</div>}
+          {error && <div className="status status--error">{error}</div>}
+
+          {!loading && !error && <DataTable users={users} />}
+        </section>
+
+        <QuickCreateModal open={open} setOpen={setOpen} />
+      </div>
+    </main>
   );
 }
-
-export default Users;

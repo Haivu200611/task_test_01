@@ -1,0 +1,14 @@
+{
+  "name": "task_test_01-root",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "npm --prefix task_test_01 run dev",
+    "build": "npm --prefix task_test_01 run build",
+    "lint": "npm --prefix task_test_01 run lint",
+    "preview": "npm --prefix task_test_01 run preview"
+  },
+  "dependencies": {
+    "react-router-dom": "^7.13.2"
+  }
+}

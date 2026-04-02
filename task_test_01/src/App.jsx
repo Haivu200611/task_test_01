@@ -1,24 +1,31 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import Sidebar from "./components/Sidebar";
+import "./App.css";
+
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { Sidebar } from "./components/Sidebar";
+import About from "./Page/About";
 import Home from "./Page/Home";
 import Users from "./Page/Users";
-import About from "./Page/About";
-import "./App.css";
+
+function Layout() {
+  return (
+    <div className="app-shell">
+      <Sidebar />
+      <Outlet />
+    </div>
+  );
+}
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="app">
-        <Sidebar />
-
-        <div className="content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/about" element={<About />} />
-          </Routes>
-        </div>
-      </div>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 }
