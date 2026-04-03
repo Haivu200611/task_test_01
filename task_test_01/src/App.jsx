@@ -1,32 +1,29 @@
 import "./App.css";
 
-import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { useState } from "react";
 import { Sidebar } from "./components/Sidebar";
 import About from "./Page/About";
 import Home from "./Page/Home";
 import Users from "./Page/Users";
 
-function Layout() {
+function App() {
+  const [page, setPage] = useState("home");
+
+  let content;
+
+  if (page === "about") {
+    content = <About />;
+  } else if (page === "users") {
+    content = <Users />;
+  } else {
+    content = <Home />;
+  }
+
   return (
     <div className="app-shell">
-      <Sidebar />
-      <Outlet />
+      <Sidebar currentPage={page} onNavigate={setPage} />
+      {content}
     </div>
-  );
-}
-
-function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
   );
 }
 
